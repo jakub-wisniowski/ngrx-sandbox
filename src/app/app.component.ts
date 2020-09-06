@@ -3,8 +3,9 @@ import { AppState } from './store/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ShoppingItem } from './store/models/shopping-item.model';
-import { AddItemAction, RemoveItemAction } from './store/actions/shopping.actions';
+import { AddItemAction, RemoveItemAction, LoadShoppingAction } from './store/actions/shopping.actions';
 import {v4 as uuid} from 'uuid';
+import { ShoppingState } from './store/reducers/shopping.reducer';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,15 @@ import {v4 as uuid} from 'uuid';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  shoppingItems$: Observable<Array<ShoppingItem>>;
-
+  shopping$: Observable<ShoppingState>;
   newShoppingItem: ShoppingItem = {id: '', name: ''};
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.shoppingItems$ = this.store.select(store => store.shopping);
+    this.shopping$ = this.store.select(store => store.shopping);
+
+    this.store.dispatch(new LoadShoppingAction);
   }
 
   addItem() {
