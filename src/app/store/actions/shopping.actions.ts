@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 import { ShoppingItem } from '../models/shopping-item.model';
 
 export enum ShoppingActionTypes {
@@ -12,60 +12,24 @@ export enum ShoppingActionTypes {
   LOAD_SHOPPING_FAILURE = '[SHOPPING] Load Shopping Failure',
   LOAD_SHOPPING_SUCCESS = '[SHOPPING] Load Shopping Success'
 }
-export class LoadShoppingAction implements Action {
-  readonly type = ShoppingActionTypes.LOAD_SHOPPING
-}
-export class LoadShoppingSuccessAction implements Action {
-  readonly type = ShoppingActionTypes.LOAD_SHOPPING_SUCCESS
+export const loadShoppingAction = createAction(ShoppingActionTypes.LOAD_SHOPPING);
 
-  constructor(public payload: Array<ShoppingItem>) {}
+export const loadShoppingSuccessAction = createAction(ShoppingActionTypes.LOAD_SHOPPING_SUCCESS, props<{payload: Array<ShoppingItem>}>());
 
-}
-export class LoadShoppingFailureAction implements Action {
-  readonly type = ShoppingActionTypes.LOAD_SHOPPING_FAILURE
-  
-  constructor(public payload: Error) {}
-}
+export const loadShoppingFailureAction = createAction(ShoppingActionTypes.LOAD_SHOPPING_FAILURE, props<{payload: Error}>());
 
-export class AddItemAction implements Action {
-  readonly type = ShoppingActionTypes.ADD_ITEM
 
-  constructor(public payload: ShoppingItem) { }
-}
-export class AddItemSuccessAction implements Action {
-  readonly type = ShoppingActionTypes.ADD_ITEM_SUCCESS
 
-  constructor(public payload: ShoppingItem) { }
-}
-export class AddItemFailureAction implements Action {
-  readonly type = ShoppingActionTypes.ADD_ITEM_FAILURE
+export const addItemAction = createAction(ShoppingActionTypes.ADD_ITEM, props<{payload: ShoppingItem}>());
 
-  constructor(public payload: Error) { }
-}
+export const addItemSuccessAction = createAction(ShoppingActionTypes.ADD_ITEM_SUCCESS, props<{payload: ShoppingItem}>());
 
-export class RemoveItemAction implements Action {
-  readonly type = ShoppingActionTypes.REMOVE_ITEM
+export const addItemFailureAction = createAction(ShoppingActionTypes.ADD_ITEM_FAILURE, props<{payload: Error}>());
 
-  constructor(public payload: string) { }
-}
 
-export class RemoveItemSuccessAction implements Action {
-  readonly type = ShoppingActionTypes.REMOVE_ITEM_SUCCESS
 
-  constructor(public payload: string) { }
-}
-export class RemoveItemFailureAction implements Action {
-  readonly type = ShoppingActionTypes.REMOVE_ITEM_FAILURE
+export const removeItemAction = createAction(ShoppingActionTypes.REMOVE_ITEM, props<{payload: string}>());
 
-  constructor(public payload: string) { }
-}
+export const removeItemSuccessAction = createAction(ShoppingActionTypes.REMOVE_ITEM_SUCCESS, props<{payload: string}>());
 
-export type ShoppingAction = AddItemAction |
-  AddItemSuccessAction |
-  AddItemFailureAction |
-  RemoveItemAction |
-  RemoveItemSuccessAction |
-  RemoveItemFailureAction |
-  LoadShoppingAction |
-  LoadShoppingFailureAction |
-  LoadShoppingSuccessAction
+export const removeItemFailureAction = createAction(ShoppingActionTypes.REMOVE_ITEM_FAILURE, props<{payload: Error}>());

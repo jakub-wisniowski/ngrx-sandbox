@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import {
-  LoadShoppingAction,
   ShoppingActionTypes,
-  LoadShoppingSuccessAction,
-  LoadShoppingFailureAction,
-  AddItemAction,
-  AddItemSuccessAction,
-  AddItemFailureAction,
-  RemoveItemAction,
-  RemoveItemSuccessAction,
-  RemoveItemFailureAction,
+  loadShoppingSuccessAction,
+  loadShoppingFailureAction,
+  addItemSuccessAction,
+  addItemFailureAction,
+  removeItemSuccessAction,
+  removeItemFailureAction,
 } from '../actions/shopping.actions';
 import { ShoppingService } from 'src/app/shopping.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
@@ -18,36 +15,49 @@ import { of } from 'rxjs';
 
 @Injectable()
 export class ShoppingEffects {
-  @Effect() loadShopping$ = this.actions$.pipe(
-    //filters only those Observables that are of type LoadShoppingAction
-    ofType<LoadShoppingAction>(ShoppingActionTypes.LOAD_SHOPPING),
-    mergeMap(
-      () => this.shoppingService.getShoppingItems().pipe(
-          map(data => new LoadShoppingSuccessAction(data)),
-          catchError(error => of(new LoadShoppingFailureAction(error)))
+  loadShopping$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShoppingActionTypes.LOAD_SHOPPING),
+      mergeMap(() =>
+        this.shoppingService.getShoppingItems().pipe(
+          map((data) => loadShoppingSuccessAction({ payload: data })),
+          catchError((error) =>
+            of(loadShoppingFailureAction({ payload: error }))
+          )
         )
+      )
     )
   );
 
-  @Effect() addItem$ = this.actions$.pipe(
-    ofType<AddItemAction>(ShoppingActionTypes.ADD_ITEM),
-    mergeMap(
-      (data) => this.shoppingService.addShoppingItem(data.payload).pipe(
-        map(data => new AddItemSuccessAction(data)),
-        catchError(error => of(new AddItemFailureAction(error)))
+  addItem$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShoppingActionTypes.ADD_ITEM),
+      map(action => (action as any).payload),
+      mergeMap((data) =>
+        this.shoppingService.addShoppingItem(data).pipe(
+          map((data) => addItemSuccessAction({payload: data})
+          ),
+          catchError((error) => of(addItemFailureAction(error)))
+        )
       )
     )
-  )
+  );
 
-  @Effect() removeItem$ = this.actions$.pipe(
-    ofType<RemoveItemAction>(ShoppingActionTypes.REMOVE_ITEM),
-    mergeMap(
-      (data) => this.shoppingService.removeShoppingItem(data.payload).pipe(
-        map(() => new RemoveItemSuccessAction(data.payload)),
-        catchError(error => of(new RemoveItemFailureAction(error)))
+  removeItem$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShoppingActionTypes.REMOVE_ITEM),
+      map(action => (action as any).payload),
+      mergeMap((data) =>
+        this.shoppingService.removeShoppingItem(data).pipe(
+          map(() => removeItemSuccessAction({payload: data })),
+          catchError((error) => of(removeItemFailureAction(error)))
+        )
       )
     )
-  )
+  );
 
-  constructor(private actions$: Actions, private shoppingService: ShoppingService) {}
+  constructor(
+    private actions$: Actions,
+    private shoppingService: ShoppingService
+  ) {}
 }

@@ -1,74 +1,88 @@
-import { ShoppingItem } from "../models/shopping-item.model";
-import { ShoppingAction, ShoppingActionTypes } from '../actions/shopping.actions';
-
+import { ShoppingItem } from '../models/shopping-item.model';
+import {
+  loadShoppingAction,
+  loadShoppingSuccessAction,
+  loadShoppingFailureAction,
+  addItemAction,
+  addItemSuccessAction,
+  addItemFailureAction,
+  removeItemAction,
+  removeItemSuccessAction,
+  removeItemFailureAction,
+} from '../actions/shopping.actions';
+import { createReducer, on } from '@ngrx/store';
 
 export interface ShoppingState {
-    list: ShoppingItem[],
-    loading: boolean,
-    error: Error
+  list: ShoppingItem[];
+  loading: boolean;
+  error: Error;
 }
 const initialState: ShoppingState = {
-    list: [],
-    loading: false,
-    error: undefined
-}
+  list: [],
+  loading: false,
+  error: undefined,
+};
 
-export function ShoppingReducer(state: ShoppingState = initialState, action: ShoppingAction) {
-    switch (action.type) {
-        case ShoppingActionTypes.LOAD_SHOPPING:
-          return {
-            ...state,
-            loading: true
-          }
-        case ShoppingActionTypes.LOAD_SHOPPING_SUCCESS:
-          return {
-            ...state,
-            list: action.payload,
-            loading: false
-          }
-        
-        case ShoppingActionTypes.LOAD_SHOPPING_FAILURE: 
-          return {
-            ...state,
-            error: action.payload,
-            loading: false
-          }
-        
-        case ShoppingActionTypes.ADD_ITEM:
-          return {
-            ...state,
-            loading: true
-          }
-        case ShoppingActionTypes.ADD_ITEM_SUCCESS:
-          return {
-            ...state,
-            list: [...state.list, action.payload],
-            loading: false
-          };
-        case ShoppingActionTypes.ADD_ITEM_FAILURE:
-          return {
-            ...state,
-            error: action.payload,
-            loading: false
-          };
-        case ShoppingActionTypes.REMOVE_ITEM:
-          return {
-            ...state,
-            loading: true
-          };
-        case ShoppingActionTypes.REMOVE_ITEM_SUCCESS:
-          return {
-            ...state,
-            list: state.list.filter(item => item.id !== action.payload),
-            loading: false
-          }
-        case ShoppingActionTypes.REMOVE_ITEM_FAILURE:
-          return {
-            ...state,
-            error: action.payload,
-            loading: false
-          };
-        default:
-          return state;
-      }
-}
+export const shoppingReducer = createReducer<ShoppingState>(
+  initialState,
+  on(loadShoppingAction, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(loadShoppingSuccessAction, (state, action) => {
+    return {
+      ...state,
+      list: action.payload,
+      loading: false,
+    };
+  }),
+  on(loadShoppingFailureAction, (state, action) => {
+    return {
+      ...state,
+      error: action.payload,
+      loading: false
+    }
+  }),
+  on(addItemAction, (state) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(addItemSuccessAction, (state, action) => {
+    return {
+      ...state,
+      list: [...state.list, action.payload],
+      loading: false
+    }
+  }),
+  on(addItemFailureAction, (state, action) => {
+    return {
+      ...state,
+      error: action.payload,
+      loading: false
+    }
+  }),
+  on(removeItemAction, (state) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(removeItemSuccessAction, (state, action) => {
+    return {
+      ...state,
+      list: state.list.filter(item => item.id !== action.payload),
+      loading: false
+    }
+  }),
+  on(removeItemFailureAction, (state, action) => {
+    return {
+      ...state,
+      error: action.payload,
+      loading: false
+    }
+  }),
+);

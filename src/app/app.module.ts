@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { ShoppingReducer } from './store/reducers/shopping.reducer';
+import { shoppingReducer } from './store/reducers/shopping.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { ShoppingEffects } from './store/effects/shopping.effects';
     FormsModule,
     HttpClientModule,
     StoreModule.forRoot({
-      shopping: ShoppingReducer,
+      shopping: shoppingReducer
     }),
     EffectsModule.forRoot([ShoppingEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
