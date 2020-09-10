@@ -1,0 +1,23 @@
+@import '../../../assets/colors';
+
+form {
+    background: $contrast;
+    border-radius: 5px;
+    padding: 30px;
+    color: white;
+
+    input[type="checkbox"] {
+        width: 38px;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        background: $gray;
+
+        &:hover {
+            background: black;
+            color: white;
+        }
+    }
+}

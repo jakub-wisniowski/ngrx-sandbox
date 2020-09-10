@@ -1,0 +1,61 @@
+@import '../../../assets/colors';
+
+#wrapper {
+  text-align: center;
+  color: white;
+  margin: 0px;
+  width: 400px;
+  margin: 0 auto;
+}
+
+#shopping-list {
+  border-radius: 5px;
+  box-shadow: 20px 20px 0px $blue;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+}
+
+form > input {
+  flex-grow: 1;
+  outline: none;
+  padding-left: 4px;
+  border: 0px;
+  height: 30px;
+}
+
+form > button {
+  border: 0px;
+  background: $gray;
+  color: white;
+  outline: none;
+
+  &:hover {
+    background: #006266;
+  }
+}
+
+ul {
+  list-style: none;
+  background: $contrast;
+  padding: 10px 0px;
+  margin: 0px;
+}
+
+li {
+  padding-bottom: 4px;
+}
+
+h2 {
+  background: $contrast;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 10px 0px;
+  margin: 0px;
+}
+
+.loading {
+  box-shadow: 20px 20px 0px $gray !important;
+}

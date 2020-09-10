@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/colors';
+
+$main: #8ADEAE;
+$contrast: #3A4B40;
+$gray: #9CB0A4;
 body {
-    background-color: #576574;
+    background-color: $main;
+
+    a {
+        color: #006D66;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #007C91;
+        text-decoration: none;
+    }
 }

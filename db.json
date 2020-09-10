@@ -1,19 +1,15 @@
 {
-  "posts": [
+  "shopping": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id": "55dbdc99-a648-41bf-a113-47d8bf98e184",
+      "name": "test"
+    },
+    {
+      "id": "9f4efa6b-f63b-49e8-89ba-4230362a0161",
+      "name": "test"
     }
   ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
+  "settings": {
+    "nrOfItems": 2
   }
 }

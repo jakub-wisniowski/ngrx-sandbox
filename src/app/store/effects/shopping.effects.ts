@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import {
   ShoppingActionTypes,
   loadShoppingSuccessAction,
@@ -9,7 +9,7 @@ import {
   removeItemSuccessAction,
   removeItemFailureAction,
 } from '../actions/shopping.actions';
-import { ShoppingService } from 'src/app/shopping.service';
+import { ShoppingService } from 'src/app/services/shopping.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
