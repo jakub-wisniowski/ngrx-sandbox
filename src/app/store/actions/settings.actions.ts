@@ -2,9 +2,9 @@ import { createAction, props } from '@ngrx/store';
 import { Settings } from '../models/settings.model';
 
 export enum SettingsActionTypes {
-  SAVE_SETTING = '[SETTINGS] Add Item',
-  SAVE_SETTING_FAILURE = '[SETTINGS] Add Item Failure',
-  SAVE_SETTING_SUCCESS = '[SETTINGS] Add Item Success',
+  SAVE_SETTING = '[SETTINGS] Save Setting',
+  SAVE_SETTING_FAILURE = '[SETTINGS] Save Setting Failure',
+  SAVE_SETTING_SUCCESS = '[SETTINGS] Save Setting Success',
   LOAD_SETTINGS = '[SETTINGS] Load Settings',
   LOAD_SETTINGS_FAILURE = '[SETTINGS] Load Settings Failure',
   LOAD_SETTINGS_SUCCESS = '[SETTINGS] Load Settings Success'
@@ -17,7 +17,7 @@ export const loadSettingsFailureAction = createAction(SettingsActionTypes.LOAD_S
 
 
 
-export const saveSettingAction = createAction(SettingsActionTypes.SAVE_SETTING, props<{payload: Settings}>());
+export const saveSettingAction = createAction(SettingsActionTypes.SAVE_SETTING, props<{payload: Settings, persistent: boolean}>());
 
 export const saveSettingSuccessAction = createAction(SettingsActionTypes.SAVE_SETTING_SUCCESS, props<{payload: Settings}>());
 

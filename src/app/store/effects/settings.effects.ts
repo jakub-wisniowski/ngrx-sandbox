@@ -30,13 +30,24 @@ export class SettingsEffects {
   saveSetting$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SettingsActionTypes.SAVE_SETTING),
-      map((action) => (action as any).payload),
-      mergeMap((data) =>
-        this.settingsService.saveSetting(data).pipe(
-          map((data) => saveSettingSuccessAction({ payload: data })),
-          catchError((error) => of(saveSettingFailureAction(error)))
-        )
-      )
+      map((action) => {
+        return {
+          payload: (action as any).payload,
+          persistent: (action as any).persistent,
+        };
+      }),
+      mergeMap((data) => {
+        if (data.persistent) {
+          return this.settingsService.saveSetting(data.payload).pipe(
+            map((savedData) =>
+              saveSettingSuccessAction({ payload: savedData })
+            ),
+            catchError((error) => of(saveSettingFailureAction(error)))
+          );
+        } else {
+          return of(saveSettingSuccessAction({ payload: data.payload }));
+        }
+      })
     )
   );
 

@@ -1,36 +1,54 @@
+import { SettingsService } from 'src/app/services/settings.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AppState } from 'src/app/store/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { SettingsState } from 'src/app/store/reducers/settings.reducer';
-import { Observable } from 'rxjs';
-import { loadSettingsAction, saveSettingAction } from 'src/app/store/actions/settings.actions';
+import { Observable, of } from 'rxjs';
+import { saveSettingAction } from 'src/app/store/actions/settings.actions';
 import { FormGroup, FormControl } from '@angular/forms';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-
   settings$: Observable<SettingsState>;
-
-  persistent: boolean;
+  x: number;
 
   form: FormGroup = new FormGroup({
-    nrOfItems: new FormControl()
+    nrOfItemsGroup: new FormGroup({
+      nrOfItems: new FormControl(),
+      persistent: new FormControl(),
+    }),
   });
-  constructor(private store: Store<AppState>) { }
+  constructor(
+    private store: Store<AppState>,
+    private settingSrv: SettingsService
+  ) {}
 
   ngOnInit() {
-    this.settings$ = this.store.select((store) => store.settings);
+    this.settings$ = this.settingSrv.loadSettings();
 
-    this.store.dispatch(loadSettingsAction());
+    // This solves the problem, but I'd rather avoid it
+
+    // this.settings$.subscribe((el) => {
+    //   this.form.patchValue({
+    //     nrOfItemsGroup: {
+    //       nrOfItems: el.settings.nrOfItems,
+    //     },
+    //   });
+    // });
   }
-
 
   saveSettings() {
-    this.store.dispatch(saveSettingAction({payload: {nrOfItems: this.form.value.nrOfItems}}));
+    const persistent = this.form.value.nrOfItemsGroup.persistent;
+    this.store.dispatch(
+      saveSettingAction({
+        payload: { nrOfItems: this.form.value.nrOfItemsGroup.nrOfItems },
+        persistent,
+      })
+    );
   }
-
 }

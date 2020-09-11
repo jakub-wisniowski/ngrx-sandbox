@@ -1,4 +1,3 @@
-import { loadSettingsAction } from 'src/app/store/actions/settings.actions';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ShoppingState } from 'src/app/store/reducers/shopping.reducer';
@@ -12,6 +11,7 @@ import {
 import { AppState } from '../../store/models/app-state.model';
 import { v4 as uuid } from 'uuid';
 import { SettingsState } from 'src/app/store/reducers/settings.reducer';
+import { SettingsService } from 'src/app/services/settings.service';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -23,14 +23,13 @@ export class ListComponent implements OnInit {
 
   newShoppingItem: ShoppingItem = { id: '', name: '' };
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private settingsSrv: SettingsService) {}
 
   ngOnInit() {
     this.shopping$ = this.store.select((store) => store.shopping);
-    this.settings$ = this.store.select((store) => store.settings);
+    this.settings$ = this.settingsSrv.loadSettings();
 
     this.store.dispatch(loadShoppingAction());
-    this.store.dispatch(loadSettingsAction());
   }
 
   addItem() {

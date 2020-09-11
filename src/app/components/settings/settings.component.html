@@ -1,20 +1,32 @@
 <div class="container">
-  <form (submit)="saveSettings()" [formGroup]="form">
-    <div class="form-group">
-      <label for="numberOfItems">Number of items</label>
-      <input
-        class="form-control"
-        type="number"
-        id="numberOfItems"
-        [value]="(settings$ | async).settings.nrOfItems"
-        formControlName="nrOfItems"
-      />
-    </div>
+  <form
+    (submit)="saveSettings()"
+    [formGroup]="form"
+    [class.loading]="(settings$ | async)?.loading"
+  >
+    value received from the store: {{ (settings$ | async)?.settings.nrOfItems }}
+    <div formGroupName="nrOfItemsGroup">
+      <div class="form-group">
+        <label for="numberOfItems">Limit of items on the list</label>
+        <input
+          class="form-control"
+          type="number"
+          id="numberOfItems"
+          [value]="(settings$ | async)?.settings.nrOfItems"
+          formControlName="nrOfItems"
+        />
+      </div>
 
-    <!-- <div class="form-group">
-                <label for="persistent">Persistent</label>
-                <input class="form-control" type="checkbox" id="persistent" name="persistentControl" [(ngModel)]="persistent">
-    </div> -->
+      <div class="form-group">
+        <label for="persistent">Save limit in database</label>
+        <input
+          class="form-control"
+          type="checkbox"
+          id="persistent"
+          formControlName="persistent"
+        />
+      </div>
+    </div>
     <button class="btn" type="submit">Save settings</button>
   </form>
 </div>

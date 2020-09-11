@@ -5,6 +5,7 @@ form {
     border-radius: 5px;
     padding: 30px;
     color: white;
+    box-shadow: 20px 20px 0px $blue;
 
     input[type="checkbox"] {
         width: 38px;
@@ -19,5 +20,10 @@ form {
             background: black;
             color: white;
         }
+    }
+
+    &.loading {
+        box-shadow: 20px 20px 0px $gray;
+
     }
 }

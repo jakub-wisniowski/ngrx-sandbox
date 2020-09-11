@@ -1,12 +1,27 @@
 {
   "shopping": [
     {
-      "id": "123",
+      "id": "55dbdc99-a648-41bf-a113-47d8bf98e184",
       "name": "test"
     },
     {
-      "id": "111f1d62-b231-44c2-99cc-c5455b72f931",
+      "id": "9f4efa6b-f63b-49e8-89ba-4230362a0161",
+      "name": "test"
+    },
+    {
+      "id": "1c817f5a-2d85-46bd-9f75-1941436d44ff",
       "name": "test2"
+    },
+    {
+      "id": "bd40d3e1-e029-4df7-9e2c-3dd483ae87c5",
+      "name": "test3"
+    },
+    {
+      "id": "e583beea-fca5-4db3-acad-58210bd0307b",
+      "name": "test5"
     }
-  ]
+  ],
+  "settings": {
+    "nrOfItems": 5
+  }
 }
